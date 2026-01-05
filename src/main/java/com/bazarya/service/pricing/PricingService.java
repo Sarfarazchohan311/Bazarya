@@ -41,36 +41,40 @@ public class PricingService {
             subtotal = subtotal.add(lineTotal);
             totalWeight = totalWeight.add(variant.getWeightKg().multiply(BigDecimal.valueOf(item.getQuantity())));
         }
-        BigDecimal discount = applyCoupon(subtotal, couponCode);
-        BigDecimal shippingFee = shippingService.calculateShipping(city, subtotal.subtract(discount), totalWeight);
+        CouponApplicationResult couponResult = applyCoupon(subtotal, couponCode);
+        BigDecimal discount = couponResult.getDiscount();
+        BigDecimal shippingFee = couponResult.isFreeShipping()
+                ? BigDecimal.ZERO
+                : shippingService.calculateShipping(city, subtotal.subtract(discount), totalWeight);
         BigDecimal tax = BigDecimal.ZERO;
         BigDecimal codFee = BigDecimal.ZERO;
         BigDecimal grandTotal = subtotal.subtract(discount).add(shippingFee).add(codFee).add(tax);
-        return new PricingResult(subtotal, discount, shippingFee, codFee, tax, grandTotal);
+        return new PricingResult(subtotal, discount, shippingFee, codFee, tax, grandTotal, couponResult.isFreeShipping());
     }
 
-    private BigDecimal applyCoupon(BigDecimal subtotal, String couponCode) {
+    private CouponApplicationResult applyCoupon(BigDecimal subtotal, String couponCode) {
         if (couponCode == null || couponCode.isBlank()) {
-            return BigDecimal.ZERO;
+            return new CouponApplicationResult(BigDecimal.ZERO, false);
         }
         Coupon coupon = couponRepository.findByCode(couponCode)
                 .orElseThrow(() -> new IllegalArgumentException("Coupon not found"));
         if (!coupon.isActive()) {
-            return BigDecimal.ZERO;
+            return new CouponApplicationResult(BigDecimal.ZERO, false);
         }
         Instant now = Instant.now();
         if (coupon.getStartsAt() != null && now.isBefore(coupon.getStartsAt())) {
-            return BigDecimal.ZERO;
+            return new CouponApplicationResult(BigDecimal.ZERO, false);
         }
         if (coupon.getEndsAt() != null && now.isAfter(coupon.getEndsAt())) {
-            return BigDecimal.ZERO;
+            return new CouponApplicationResult(BigDecimal.ZERO, false);
         }
         if (coupon.getMinOrderAmount() != null && subtotal.compareTo(coupon.getMinOrderAmount()) < 0) {
-            return BigDecimal.ZERO;
+            return new CouponApplicationResult(BigDecimal.ZERO, false);
         }
         if (coupon.getUsageLimit() != null && couponUsageRepository.countByCoupon(coupon) >= coupon.getUsageLimit()) {
-            return BigDecimal.ZERO;
+            return new CouponApplicationResult(BigDecimal.ZERO, false);
         }
+        boolean freeShipping = coupon.getType() == CouponType.FREESHIP;
         BigDecimal discount = BigDecimal.ZERO;
         if (coupon.getType() == CouponType.PERCENT) {
             discount = subtotal.multiply(coupon.getValue()).divide(BigDecimal.valueOf(100));
@@ -80,8 +84,8 @@ public class PricingService {
             discount = BigDecimal.ZERO;
         }
         if (coupon.getMaxDiscountAmount() != null && discount.compareTo(coupon.getMaxDiscountAmount()) > 0) {
-            return coupon.getMaxDiscountAmount();
+            return new CouponApplicationResult(coupon.getMaxDiscountAmount(), freeShipping);
         }
-        return discount;
+        return new CouponApplicationResult(discount, freeShipping);
     }
 }
