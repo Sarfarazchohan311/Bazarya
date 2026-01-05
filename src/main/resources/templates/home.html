@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bazarya Pakistan - Storefront</title>
+    <meta name="description" content="Bazarya ecommerce storefront for Pakistan" />
+    <link rel="canonical" href="/" />
+</head>
+<body>
+<h1>Bazarya Storefront</h1>
+<section>
+    <h2>Categories</h2>
+    <ul>
+        <li th:each="category : ${categories}">
+            <a th:href="@{'/c/' + ${category.slug}}" th:text="${category.name}"></a>
+        </li>
+    </ul>
+</section>
+<section>
+    <h2>Products</h2>
+    <ul>
+        <li th:each="product : ${products}">
+            <a th:href="@{'/p/' + ${product.slug}}" th:text="${product.name}"></a>
+        </li>
+    </ul>
+</section>
+</body>
+</html>
