@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${category.seoTitle != null ? category.seoTitle : category.name}">Category</title>
+    <meta name="description" th:content="${category.seoDescription}" />
+    <link rel="canonical" th:href="@{'/c/' + ${category.slug}}" />
+</head>
+<body>
+<h1 th:text="${category.name}">Category</h1>
+<ul>
+    <li th:each="product : ${products}">
+        <a th:href="@{'/p/' + ${product.slug}}" th:text="${product.name}"></a>
+    </li>
+</ul>
+</body>
+</html>

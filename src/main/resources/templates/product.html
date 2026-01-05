@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${product.seoTitle != null ? product.seoTitle : product.name}">Product</title>
+    <meta name="description" th:content="${product.seoDescription}" />
+    <link rel="canonical" th:href="@{'/p/' + ${product.slug}}" />
+    <script type="application/ld+json" th:inline="javascript">
+        [[
+        {
+          "@context": "https://schema.org/",
+          "@type": "Product",
+          "name": "[[${product.name}]]",
+          "description": "[[${product.description}]]"
+        }
+        ]]
+    </script>
+</head>
+<body>
+<h1 th:text="${product.name}">Product</h1>
+<p th:text="${product.description}">Description</p>
+</body>
+</html>
