@@ -2,9 +2,63 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
 </head>
 <body>
-<h1>Admin Dashboard</h1>
-<p>Phase 1 admin panel scaffold.</p>
+<nav class="nav">
+    <div class="container nav__content">
+        <a class="logo" href="/">Bazarya Admin</a>
+        <div class="nav__links">
+            <a href="/admin/services">Services</a>
+            <a href="/admin/bookings">Bookings</a>
+            <a href="/admin/products">Products</a>
+            <a href="/admin/orders">Orders</a>
+        </div>
+        <a class="button button--ghost" href="/admin/reports">Reports</a>
+    </div>
+</nav>
+
+<main class="container">
+    <div class="page-header">
+        <span class="tag">Admin Control Center</span>
+        <h1>Salon Commerce Dashboard</h1>
+        <p class="banner">Monitor today’s appointments, manage inventory, and keep fulfillment flowing with COD-ready operations.</p>
+    </div>
+
+    <section class="section">
+        <div class="section__title">
+            <h2>Quick Actions</h2>
+            <span class="tag">MVP Essentials</span>
+        </div>
+        <div class="admin-grid">
+            <div class="admin-card">
+                <h3>Confirm Bookings</h3>
+                <p>Review requested appointments and assign staff without double-booking.</p>
+                <a class="button button--ghost" href="/admin/bookings">Manage bookings</a>
+            </div>
+            <div class="admin-card">
+                <h3>Manage Packages</h3>
+                <p>Track active packages, expiry windows, and customer usage history.</p>
+                <a class="button button--ghost" href="/admin/packages">View packages</a>
+            </div>
+            <div class="admin-card">
+                <h3>Process Orders</h3>
+                <p>Update order statuses for delivery or pickup and handle COD flows.</p>
+                <a class="button button--ghost" href="/admin/orders">Process orders</a>
+            </div>
+            <div class="admin-card">
+                <h3>Inventory Watch</h3>
+                <p>Stay ahead of low stock alerts and record stock-in/out.</p>
+                <a class="button button--ghost" href="/admin/inventory">View inventory</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <p>Phase-1 admin panel scaffold enhanced for daily operations.</p>
+    </div>
+</footer>
 </body>
 </html>

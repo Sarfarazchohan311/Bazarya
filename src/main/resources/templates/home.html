@@ -1,27 +1,141 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Bazarya Pakistan - Storefront</title>
-    <meta name="description" content="Bazarya ecommerce storefront for Pakistan" />
+    <title>Bazarya Pakistan | Salon Commerce & Booking</title>
+    <meta name="description" content="Salon booking, packages, and product commerce with delivery/pickup in Pakistan." />
     <link rel="canonical" href="/" />
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
 </head>
 <body>
-<h1>Bazarya Storefront</h1>
-<section>
-    <h2>Categories</h2>
-    <ul>
-        <li th:each="category : ${categories}">
-            <a th:href="@{'/c/' + ${category.slug}}" th:text="${category.name}"></a>
-        </li>
-    </ul>
-</section>
-<section>
-    <h2>Products</h2>
-    <ul>
-        <li th:each="product : ${products}">
-            <a th:href="@{'/p/' + ${product.slug}}" th:text="${product.name}"></a>
-        </li>
-    </ul>
-</section>
+<nav class="nav">
+    <div class="container nav__content">
+        <a class="logo" href="/">Bazarya</a>
+        <div class="nav__links">
+            <a href="/services">Services</a>
+            <a href="/booking/availability">Book Now</a>
+            <a href="/products">Shop</a>
+            <a href="/admin/dashboard">Admin</a>
+        </div>
+        <div class="nav__links">
+            <a class="button button--ghost" href="/bookings">My Bookings</a>
+            <a class="button button--primary" href="/checkout">Checkout</a>
+        </div>
+    </div>
+</nav>
+
+<main>
+    <section class="container hero">
+        <div class="hero__content">
+            <span class="badge">15-min slots • 10-min buffer</span>
+            <h1>Complete salon + commerce experience with bookings, packages, and smart fulfillment.</h1>
+            <p>Launch a premium experience for walk-ins and online customers. Manage services, staff, packages, and product orders with COD today and online payments ready for phase-2.</p>
+            <div class="nav__links">
+                <a class="button button--primary" href="/booking/availability">Find a Slot</a>
+                <a class="button button--ghost" href="/products">Shop Products</a>
+            </div>
+            <div class="hero__stats">
+                <div class="stat">
+                    <strong>Booking Engine</strong>
+                    <p class="tag">No double booking</p>
+                </div>
+                <div class="stat">
+                    <strong>Packages</strong>
+                    <p class="tag">Expiry & redemption tracking</p>
+                </div>
+                <div class="stat">
+                    <strong>Orders</strong>
+                    <p class="tag">Delivery + pickup</p>
+                </div>
+            </div>
+        </div>
+        <div class="hero__card">
+            <h2>Use-case Ready Modules</h2>
+            <p class="banner">Built for salons that need bookings, staff scheduling, packages, product sales, COD, and return workflows without touching multiple systems.</p>
+            <ul class="list">
+                <li>Online + in-store bookings with reschedule/cancel flows.</li>
+                <li>Package purchases, expiry checks, and redemption while booking.</li>
+                <li>Cart, checkout, order tracking, and COD-first workflows.</li>
+                <li>Returns, refunds, and inventory sync for staff teams.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section__title">
+                <h2>Customer Journeys</h2>
+                <span class="tag">MVP-ready</span>
+            </div>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Book Salon Services</h3>
+                    <p>Search availability, choose a staff member, and manage reschedules from one dashboard.</p>
+                    <ul class="list">
+                        <li>15-minute slots with buffer enforcement</li>
+                        <li>Status lifecycle with confirmations</li>
+                        <li>Walk-in and online bookings</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Buy Packages</h3>
+                    <p>Sell bundles of sessions with configurable expiry and auto redemption on booking.</p>
+                    <ul class="list">
+                        <li>Session tracking and history</li>
+                        <li>Expiry validation at booking</li>
+                        <li>Customer package dashboard</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Shop Products</h3>
+                    <p>Let customers order salon products for delivery or pickup with COD checkout.</p>
+                    <ul class="list">
+                        <li>Order status timeline</li>
+                        <li>Inventory auto-deduction</li>
+                        <li>Return & refund workflow</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section__title">
+                <h2>Featured Categories</h2>
+                <a class="tag" href="/services">Browse all services</a>
+            </div>
+            <div class="card-grid">
+                <div class="card" th:each="category : ${categories}">
+                    <h3 th:text="${category.name}">Category Name</h3>
+                    <p th:text="${category.description}">Category summary</p>
+                    <a class="button button--ghost" th:href="@{'/c/' + ${category.slug}}">Explore</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="section__title">
+                <h2>Popular Products</h2>
+                <a class="tag" href="/products">View catalog</a>
+            </div>
+            <div class="product-grid">
+                <div class="product-card" th:each="product : ${products}">
+                    <h3 th:text="${product.name}">Product Name</h3>
+                    <p th:text="${product.shortDescription}">Premium salon product</p>
+                    <a class="button button--primary" th:href="@{'/p/' + ${product.slug}}">View details</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <p><strong>Bazarya</strong> — Salon booking + commerce suite. COD-ready with online payments for phase-2.</p>
+        <p>Contact support: support@bazarya.pk</p>
+    </div>
+</footer>
 </body>
 </html>
