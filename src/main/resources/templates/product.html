@@ -4,6 +4,7 @@
     <title th:text="${product.seoTitle != null ? product.seoTitle : product.name}">Product</title>
     <meta name="description" th:content="${product.seoDescription}" />
     <link rel="canonical" th:href="@{'/p/' + ${product.slug}}" />
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
     <script type="application/ld+json" th:inline="javascript">
         [[
         {
@@ -16,7 +17,49 @@
     </script>
 </head>
 <body>
-<h1 th:text="${product.name}">Product</h1>
-<p th:text="${product.description}">Description</p>
+<nav class="nav">
+    <div class="container nav__content">
+        <a class="logo" href="/">Bazarya</a>
+        <div class="nav__links">
+            <a href="/services">Services</a>
+            <a href="/booking/availability">Book Now</a>
+            <a href="/products">Shop</a>
+        </div>
+        <a class="button button--ghost" href="/checkout">Checkout</a>
+    </div>
+</nav>
+
+<main class="container">
+    <div class="page-header">
+        <span class="tag">Product detail</span>
+        <h1 th:text="${product.name}">Product</h1>
+        <p class="banner" th:text="${product.shortDescription}">Short description</p>
+    </div>
+
+    <section class="section">
+        <div class="card-grid">
+            <div class="card">
+                <h3>Why customers love it</h3>
+                <p th:text="${product.description}">Description</p>
+                <div class="badge">Delivery + Pickup ready</div>
+            </div>
+            <div class="card">
+                <h3>Order flow</h3>
+                <ul class="list">
+                    <li>COD checkout now, online payments in phase-2.</li>
+                    <li>Status updates from confirmed to delivered.</li>
+                    <li>Return requests supported after delivery.</li>
+                </ul>
+                <a class="button button--primary" href="/checkout">Buy now</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <p>Need a salon appointment? Book services with buffer-safe scheduling on the booking page.</p>
+    </div>
+</footer>
 </body>
 </html>
